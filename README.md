@@ -66,11 +66,29 @@
 ---
 
 ## Estructura del Proyecto
+
 ```text
 TechCenter/
 ├── backend/            # API REST en Spring Boot (Java 21)
 ├── frontend/           # Aplicación Web en Angular (v21)
 └── docker-compose.yml  # Orquestador de contenedores (MySQL, Backend, Frontend)
+```
 
+## Corren en local
+### Prerrequisitos
+ * **Java JDK 21** y **Node.js 20+ / npm 10+**
+ * **Docker Desktop** instalado (Recomendado)
+
+### 1. Clonar repositorio:
+    git clone [https://github.com/tu_usuario/TechCenter.git](https://github.com/tu_usuario/TechCenter.git)
+    cd TechCenter
+
+### 2. Ejecutar con Docker Compose:
+     docker-compose up --build
+
+### 3. Acceder a los servicios:
+ * **Frontend (Angular):** `http://localhost`
+ * **Backend API (Spring Boot):** `http://localhost:8080/api`
+ * **Base de Datos (MySQL):** `localhost:3306`
 
  
