@@ -37,7 +37,40 @@
     * **Cliente (Usuario Final):** Acceso al Asesor IA, catálogo, carrito, pasarela de pago y descarga de comprobantes.
     * **Módulo POS y Ventas (Empleado):** Registro de ventas presenciales (Boleta/Factura), control de pedidos web, gestión de inventario (entradas, salidas, devoluciones) y panel operativo de stock crítico.
     * **Gestión Global (Administrador):** Control total de usuarios y roles (RBAC), gestión integral del catálogo/marcas, auditoría de eventos del sistema y reportes consolidados.
-  
-  
+
+---
+
+## Tecnologías Utilizadas
+
+### Backend
+* **Java 21** / **Spring Boot 3.x / 4.x**
+* **Spring Security** (Autenticación y Autorización basada en roles/RBAC)
+* **JWT (JSON Web Token)** (`io.jsonwebtoken` 0.12.6)
+* **Spring Data JPA** / **Hibernate**
+* **OpenPDF** (Generación e impresión de comprobantes en PDF)
+* **Lombok**
+* **MySQL 8.0** (Base de Datos Relacional)
+* **Maven** (Gestión en dependencias)
+
+### Frontend
+* **Angular 21** (TypeScript 5.9)
+* **Bootstrap 5.3**
+* **RxJS 7.8** (Programación reactiva)
+* **Angular Router** & **Forms**
+* **Vitest** (Testing unitario)
+
+### Infraestructura y Despliegue
+* **Docker** & **Docker Compose**
+* **Nginx** (Servidor Web y Reverse Proxy)
+
+---
+
+## Estructura del Proyecto
+```text
+TechCenter/
+├── backend/            # API REST en Spring Boot (Java 21)
+├── frontend/           # Aplicación Web en Angular (v21)
+└── docker-compose.yml  # Orquestador de contenedores (MySQL, Backend, Frontend)
+
 
  
