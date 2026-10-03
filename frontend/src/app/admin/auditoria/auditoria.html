@@ -1,0 +1,21 @@
+<main class="container-fluid px-4 mt-4 fade-up" *ngIf="!cargando">
+  <h1 class="page-title mb-1">Auditoría</h1>
+  <p class="text-muted">Registro de acciones importantes del sistema.</p>
+  <div class="card shadow-sm">
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead><tr><th>Fecha</th><th>Acción</th><th>Entidad</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let a of auditorias">
+            <td>{{ a.fecha }}</td>
+            <td><i class="bi bi-activity text-success me-1"></i>{{ a.accion }}</td>
+            <td>{{ a.entidad }}</td>
+          </tr>
+          <tr *ngIf="auditorias.length === 0">
+            <td colspan="3" class="text-center text-muted">Sin registros de auditoría</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

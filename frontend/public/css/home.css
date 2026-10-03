@@ -1,0 +1,104 @@
+.store-hero {
+    min-height: 520px;
+    padding: 3rem 0;
+    color: #ffffff;
+    background:
+        linear-gradient(90deg, rgba(15, 23, 42, .94), rgba(15, 23, 42, .74), rgba(0, 102, 255, .28)),
+        url('../../src/assets/store.jpg') center/cover;
+    display: flex;
+    align-items: center;
+    animation: heroReveal .6s ease-out both;
+}
+
+.store-hero h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #ffffff;
+}
+
+.hero-search {
+    background: rgba(255, 255, 255, .97);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, .18);
+}
+
+.category-rail {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.category-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    margin: .75rem .35rem;
+    padding: .7rem 1rem;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    color: #0066FF;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform .18s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.category-chip:hover {
+    background: #0066FF;
+    color: #ffffff;
+    border-color: #0066FF;
+    box-shadow: 0 10px 22px rgba(0, 102, 255, .25);
+    transform: translateY(-2px);
+}
+
+.promo-band {
+    background: linear-gradient(90deg, #0f172a, #1e293b);
+    color: #ffffff;
+    font-weight: 850;
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-band::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .34), transparent);
+    animation: shine 3.2s ease-in-out infinite;
+}
+
+.section-band {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+}
+
+.mini-banner {
+    border-radius: 16px;
+    min-height: 170px;
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.mini-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15, 23, 42, .85), rgba(0, 102, 255, .25));
+}
+
+.mini-banner > * {
+    position: relative;
+    z-index: 1;
+}

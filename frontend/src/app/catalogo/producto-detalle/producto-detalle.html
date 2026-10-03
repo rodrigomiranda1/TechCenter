@@ -1,0 +1,75 @@
+<main class="container py-4 fade-up" *ngIf="producto$ | async as producto">
+  <nav class="small mb-3">
+    <a class="text-decoration-none text-success" routerLink="/inicio">Inicio</a>
+    <span class="text-muted mx-2">/</span>
+    <span class="text-muted">{{ producto.nombreCategoria || 'Producto' }}</span>
+  </nav>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="detail-gallery">
+        <img class="detail-main-img" [src]="urlImagenProducto(producto)" [alt]="producto.nombre">
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <span class="badge text-bg-success mb-3">{{ producto.nombreMarca || 'FerreMax' }}</span>
+          <h1 class="page-title">{{ producto.nombre }}</h1>
+          <p class="text-muted">{{ producto.descripcion }}</p>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+            <div>
+              <div class="text-muted">Precio online</div>
+              <div class="display-6 fw-bold text-success">S/ {{ producto.precio | number:'1.2-2' }}</div>
+            </div>
+            <span class="badge bg-secondary fs-6">Stock {{ producto.stockActual }}</span>
+          </div>
+
+          <div class="detail-benefits">
+            <div class="benefit-pill"><i class="bi bi-truck text-success"></i> Recojo o delivery</div>
+            <div class="benefit-pill"><i class="bi bi-receipt text-success"></i> Boleta o factura</div>
+            <div class="benefit-pill"><i class="bi bi-shield-check text-success"></i> Compra segura</div>
+          </div>
+
+          <div class="mt-3">
+            <label class="form-label">Cantidad</label>
+            <div class="input-group mb-3">
+              <input type="number" min="1" value="1" class="form-control">
+              <button class="btn btn-success btn-icon" (click)="agregarAlCarrito(producto.idProducto)">
+                <i class="bi bi-bag-plus"></i> Agregar al carrito
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-secondary btn-icon" routerLink="/inicio"><i class="bi bi-grid"></i> Volver al catálogo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="mt-5" *ngIf="similares$ | async as similares">
+    <div class="d-flex justify-content-between align-items-end mb-3" *ngIf="similares.length > 0">
+      <div>
+        <h2 class="page-title mb-1">Productos similares</h2>
+        <p class="text-muted mb-0">Opciones de la misma categoría para comparar.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3" *ngFor="let p of similares">
+        <div class="card product-card reveal-card">
+          <a [routerLink]="['/producto', p.idProducto]">
+            <img class="product-img" [src]="urlImagenProducto(p)" [alt]="p.nombre">
+          </a>
+          <div class="card-body">
+            <h6>{{ p.nombre }}</h6>
+            <strong class="text-success">S/ {{ p.precio | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,12 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100">
+  <div *ngFor="let t of toasts" class="toast show align-items-center border-0 soft-toast mb-2"
+       [class.text-bg-success]="t.tipo === 'exito'" [class.text-bg-danger]="t.tipo === 'error'">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="bi" [class.bi-check-circle]="t.tipo === 'exito'" [class.bi-exclamation-triangle]="t.tipo === 'error'"></i>
+        {{ t.texto }}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="cerrar(t.id)"></button>
+    </div>
+  </div>
+</div>

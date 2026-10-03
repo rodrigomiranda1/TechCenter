@@ -1,0 +1,166 @@
+<main class="container-fluid px-4 mt-4 fade-up admin-page" *ngIf="!cargando">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-bar-chart-line"></i> Administración</span>
+      <h1 class="page-title mb-1">Reportes</h1>
+      <p class="text-muted mb-0">Consulta el resumen de ventas y pedidos registrados en TechCenter.</p>
+    </div>
+  </div>
+
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="h4 mb-1"><i class="bi bi-receipt text-success"></i> Reporte de ventas</h2>
+        <p class="text-muted mb-0">Ventas realizadas mediante el sistema.</p>
+        <br>
+        <div class="reporte-filtro">
+          <div class="filtro-campo">
+            <label>Desde</label>
+            <input type="date" [(ngModel)]="ventasDesde">
+          </div>
+          <div class="filtro-campo">
+            <label>Hasta</label>
+            <input type="date" [(ngModel)]="ventasHasta">
+          </div>
+          <button type="button" class="btn btn-filtrar" (click)="filtrarVentas()"><i class="bi bi-funnel"></i> Filtrar</button>
+          <button type="button" class="btn btn-limpiar" (click)="limpiarVentas()"><i class="bi bi-x-circle"></i> Limpiar</button>
+        </div>
+      </div>
+      <span class="badge text-bg-success">{{ reportes.cantidadVentas }} ventas</span>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm admin-soft-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div>
+                <div class="text-muted small">Cantidad de ventas</div>
+                <h3 class="mb-0">{{ reportes.cantidadVentas }}</h3>
+              </div>
+              <div class="fs-2 text-success"><i class="bi bi-cart-check"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card shadow-sm admin-soft-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div>
+                <div class="text-muted small">Monto total vendido</div>
+                <h3 class="mb-0">S/ {{ reportes.totalVentas | number:'1.2-2' }}</h3>
+              </div>
+              <div class="fs-2 text-success"><i class="bi bi-cash-stack"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm admin-soft-card">
+      <div class="card-header bg-white"><strong><i class="bi bi-list-ul text-success"></i> Ventas registradas</strong></div>
+      <div class="card-body table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Usuario</th><th>Comprobante</th><th>Método de pago</th><th>Estado</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let v of reportes.ventas">
+              <td>{{ v.idVenta }}</td>
+              <td>{{ v.fechaVenta }}</td>
+              <td>{{ v.nombreCliente }}</td>
+              <td>{{ v.nombreUsuario }}</td>
+              <td>
+                <span class="badge text-bg-light border">{{ v.tipoComprobante }}</span>
+                <div class="small fw-semibold mt-1">{{ v.serie }}-{{ v.correlativo }}</div>
+              </td>
+              <td>{{ v.metodoPago }}</td>
+              <td><span class="badge text-bg-success">{{ v.estado }}</span></td>
+              <td><strong>S/ {{ v.total | number:'1.2-2' }}</strong></td>
+            </tr>
+            <tr *ngIf="reportes.ventas.length === 0">
+              <td colspan="8" class="text-center text-muted py-4">
+                <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                No existen ventas registradas.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="h4 mb-1"><i class="bi bi-bag-check text-success"></i> Reporte de pedidos</h2>
+        <p class="text-muted mb-0">Pedidos realizados desde la tienda web.</p>
+        <br>
+        <div class="reporte-filtro">
+          <div class="filtro-campo">
+            <label>Desde</label>
+            <input type="date" [(ngModel)]="pedidosDesde">
+          </div>
+          <div class="filtro-campo">
+            <label>Hasta</label>
+            <input type="date" [(ngModel)]="pedidosHasta">
+          </div>
+          <button type="button" class="btn btn-filtrar" (click)="filtrarPedidos()"><i class="bi bi-funnel"></i> Filtrar</button>
+          <button type="button" class="btn btn-limpiar" (click)="limpiarPedidos()"><i class="bi bi-x-circle"></i> Limpiar</button>
+        </div>
+      </div>
+      <span class="badge text-bg-success">{{ reportes.cantidadPedidos }} pedidos</span>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="card shadow-sm admin-soft-card h-100">
+          <div class="card-body">
+            <div class="text-muted small">Total pedidos</div>
+            <h3 class="mb-0">{{ reportes.cantidadPedidos }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card shadow-sm admin-soft-card h-100">
+          <div class="card-body">
+            <div class="text-muted small">Monto total</div>
+            <h3 class="mb-0">S/ {{ reportes.totalPedidos | number:'1.2-2' }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm admin-soft-card">
+      <div class="card-header bg-white"><strong><i class="bi bi-list-check text-success"></i> Pedidos registrados</strong></div>
+      <div class="card-body table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Usuario</th><th>Estado</th><th>Dirección</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of reportes.pedidos">
+              <td>{{ p.idPedido }}</td>
+              <td>{{ p.fechaPedido }}</td>
+              <td>{{ p.nombreCliente }}</td>
+              <td>{{ p.nombreUsuario }}</td>
+              <td>
+                <span *ngIf="p.estado === 'PAGADO'" class="badge text-bg-success">PAGADO</span>
+                <span *ngIf="p.estado !== 'PAGADO'" class="badge text-bg-warning">{{ p.estado }}</span>
+              </td>
+              <td>{{ p.direccionEntrega || 'Retiro / No especificada' }}</td>
+              <td><strong>S/ {{ p.total | number:'1.2-2' }}</strong></td>
+            </tr>
+            <tr *ngIf="reportes.pedidos.length === 0">
+              <td colspan="7" class="text-center text-muted py-4">
+                <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                No existen pedidos registrados.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,113 @@
+<main class="container-fluid px-4 py-4 fade-up profile-page" *ngIf="!cargando">
+  <div class="commerce-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-person-badge"></i> Cuenta cliente</span>
+      <h1 class="page-title mb-1">Mi perfil</h1>
+      <p class="text-muted mb-0">Actualiza tus datos y datos de facturación para compras futuras.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/inicio">
+      <i class="bi bi-shop"></i> Volver a la tienda
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-xl-4">
+      <section class="profile-card">
+        <div class="profile-cover"></div>
+        <div class="profile-avatar-wrap">
+          <img *ngIf="perfil.fotoPerfil" [src]="perfil.fotoPerfil" [alt]="perfil.nombres" class="profile-avatar">
+          <div *ngIf="!perfil.fotoPerfil" class="profile-avatar placeholder-avatar">
+            <i class="bi bi-person"></i>
+          </div>
+        </div>
+        <div class="profile-card-body">
+          <h2>{{ perfil.nombres }} {{ perfil.apellidos || '' }}</h2>
+          <p>{{ perfil.email }}</p>
+          <div class="profile-badges">
+            <span><i class="bi bi-shield-check"></i> {{ perfil.proveedorAuth || 'LOCAL' }}</span>
+            <span *ngIf="perfil.emailVerificado"><i class="bi bi-envelope-check"></i> Email verificado</span>
+            <span *ngIf="perfil.telefonoVerificado"><i class="bi bi-phone"></i> Celular verificado</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col-xl-8">
+      <section class="card shadow-sm profile-form-card">
+        <div class="card-header bg-white">
+          <strong><i class="bi bi-pencil-square text-success"></i> Datos personales</strong>
+        </div>
+        <div class="card-body p-4">
+          <form (ngSubmit)="guardar()">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombres</label>
+                <input name="nombres" class="form-control" [(ngModel)]="perfil.nombres" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Apellidos</label>
+                <input name="apellidos" class="form-control" [(ngModel)]="perfil.apellidos">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Correo</label>
+                <input name="email" type="email" class="form-control" [(ngModel)]="perfil.email" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Celular</label>
+                <input name="telefono" class="form-control" [(ngModel)]="perfil.telefono" placeholder="900000000">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Dirección</label>
+                <input name="direccion" class="form-control" [(ngModel)]="perfil.direccion" placeholder="Dirección de entrega o referencia">
+              </div>
+            </div>
+
+            <hr class="my-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+              <div>
+                <h5 class="mb-1">Facturación</h5>
+                <p class="text-muted mb-0">Datos usados para boleta o factura.</p>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Tipo documento</label>
+                <select name="tipoDocumento" class="form-select" [(ngModel)]="perfil.tipoDocumento">
+                  <option value="DNI">DNI</option>
+                  <option value="RUC">RUC</option>
+                  <option value="CE">Carnet extranjería</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Número documento</label>
+                <input name="numeroDocumento" class="form-control" [(ngModel)]="perfil.numeroDocumento">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Email facturación</label>
+                <input name="emailFacturacion" type="email" class="form-control" [(ngModel)]="perfil.emailFacturacion">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Razón social</label>
+                <input name="razonSocial" class="form-control" [(ngModel)]="perfil.razonSocial">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Dirección fiscal</label>
+                <input name="direccionFiscal" class="form-control" [(ngModel)]="perfil.direccionFiscal">
+              </div>
+            </div>
+
+            <p class="text-success small mt-3" *ngIf="mensajeExito">{{ mensajeExito }}</p>
+            <p class="text-danger small mt-3" *ngIf="mensajeError">{{ mensajeError }}</p>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <a class="btn btn-outline-success btn-icon" routerLink="/inicio"><i class="bi bi-x-lg"></i> Cancelar</a>
+              <button class="btn btn-success btn-icon" type="submit" [disabled]="guardando">
+                <i class="bi bi-save"></i> {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>

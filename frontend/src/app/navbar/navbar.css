@@ -1,0 +1,72 @@
+/* ==========================================
+   BOTÓN ASESORIA Y BOTÓN INGRESAR (Outline)
+   ========================================== */
+.app-navbar .btn-outline-success {
+  --bs-btn-color: #0066FF;
+  --bs-btn-border-color: #0066FF;
+  --bs-btn-hover-bg: #eff6ff;
+  --bs-btn-hover-border-color: #0066FF;
+  --bs-btn-hover-color: #0066FF;
+  --bs-btn-active-bg: #0066FF;
+  --bs-btn-active-border-color: #0066FF;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-focus-shadow-rgb: 0, 102, 255;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Al pasar el cursor (Hover) */
+.app-navbar .btn-outline-success:hover {
+  background-color: #eff6ff !important;
+  border-color: #0066FF !important;
+  color: #0066FF !important;
+  transform: translateY(-1px);
+}
+
+/* Al hacer clic o presionar (Active / Focus) */
+.app-navbar .btn-outline-success:active,
+.app-navbar .btn-outline-success:focus,
+.app-navbar .btn-outline-success.active {
+  background-color: #0052cc !important;
+  border-color: #0052cc !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.25) !important;
+}
+
+
+/* ==========================================
+   BOTÓN REGISTRO (Sólido)
+   ========================================== */
+.app-navbar .btn-success {
+  --bs-btn-bg: #0066FF;
+  --bs-btn-border-color: #0066FF;
+  --bs-btn-hover-bg: #0052cc;
+  --bs-btn-hover-border-color: #0052cc;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-active-bg: #0040a8;
+  --bs-btn-active-border-color: #0040a8;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-focus-shadow-rgb: 0, 102, 255;
+  background-color: #0066FF;
+  border-color: #0066FF;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Al pasar el cursor (Hover) */
+.app-navbar .btn-success:hover {
+  background-color: #0052cc !important;
+  border-color: #0052cc !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+/* Al hacer clic o presionar (Active / Focus) */
+.app-navbar .btn-success:active,
+.app-navbar .btn-success:focus,
+.app-navbar .btn-success.active {
+  background-color: #0040a8 !important;
+  border-color: #0040a8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.35) !important;
+}

@@ -1,0 +1,7 @@
+<div style="padding: 2rem;" *ngIf="usuario$ | async as usuario; else cargando">
+  <h2>Bienvenido, {{ usuario.username }} 👋</h2>
+  <p>Tu rol es: {{ usuario.roles.join(', ') }}</p>
+</div>
+<ng-template #cargando>
+  <p style="padding: 2rem;">Cargando...</p>
+</ng-template>

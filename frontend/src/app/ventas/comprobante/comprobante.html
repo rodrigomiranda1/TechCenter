@@ -1,0 +1,69 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando && comprobante">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-receipt"></i> Comprobante</span>
+      <h1 class="page-title mb-1">{{ comprobante.serie }}-{{ comprobante.correlativo }}</h1>
+      <p class="text-muted mb-0">{{ comprobante.tipoComprobante }} · {{ comprobante.fecha }}</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-success btn-icon" [href]="backendUrl + '/ventas/comprobante/' + comprobante.idVenta + '/pdf'" target="_blank">
+        <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+      </a>
+      <a class="btn btn-outline-success btn-icon" routerLink="/ventas/listado"><i class="bi bi-arrow-left"></i> Volver</a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-person text-success"></i> Cliente</strong></div>
+        <div class="card-body">
+          <p class="mb-2"><strong>Nombre:</strong> {{ comprobante.nombreCliente }}</p>
+          <p class="mb-2"><strong>DNI:</strong> {{ comprobante.dniCliente }}</p>
+          <p class="mb-0"><strong>Dirección:</strong> {{ comprobante.direccionCliente || '-' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-receipt text-success"></i> Información</strong></div>
+        <div class="card-body">
+          <p class="mb-2"><strong>Vendedor:</strong> {{ comprobante.nombreUsuario }}</p>
+          <p class="mb-2"><strong>Método de pago:</strong> {{ comprobante.metodoPago }}</p>
+          <p class="mb-2"><strong>Entrega:</strong> {{ comprobante.tipoEntrega }}</p>
+          <p class="mb-0"><strong>Estado:</strong> <span class="badge text-bg-success">{{ comprobante.estado }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-white"><strong><i class="bi bi-box-seam text-success"></i> Productos</strong></div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark"><tr><th>Producto</th><th class="text-center">Cantidad</th><th class="text-end">P. Unit.</th><th class="text-end">Total</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let it of comprobante.items">
+            <td><strong>{{ it.nombreProducto }}</strong></td>
+            <td class="text-center">{{ it.cantidad }}</td>
+            <td class="text-end">S/ {{ it.precioUnitario | number:'1.2-2' }}</td>
+            <td class="text-end"><strong>S/ {{ it.importe | number:'1.2-2' }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2"><span>Subtotal</span><strong>S/ {{ comprobante.subtotal | number:'1.2-2' }}</strong></div>
+          <div class="d-flex justify-content-between mb-2"><span>IGV 18%</span><strong>S/ {{ comprobante.igv | number:'1.2-2' }}</strong></div>
+          <hr>
+          <div class="d-flex justify-content-between"><strong class="fs-5">Total</strong><strong class="fs-5 text-success">S/ {{ comprobante.total | number:'1.2-2' }}</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

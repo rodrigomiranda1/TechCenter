@@ -1,0 +1,111 @@
+:root {
+    --tech-blue: #0066FF;
+    --tech-blue-dark: #0052cc;
+    --tech-ink: #0f172a;
+    --tech-muted: #64748b;
+    --tech-line: #e2e8f0;
+    --tech-soft: #eff6ff;
+    --tech-page: #f8fafc;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(0, 102, 255, .08), transparent 28rem),
+        var(--tech-page);
+    color: var(--tech-ink);
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.app-navbar {
+    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, .95);
+    border-bottom: 1px solid rgba(226, 232, 240, .9);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, .05);
+}
+
+.navbar-brand span {
+    font-weight: 900;
+    letter-spacing: 0;
+    color: var(--tech-blue);
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 750;
+    transition: all .18s ease;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #0066FF, #0052cc);
+    border-color: #0066FF;
+    color: #ffffff;
+    box-shadow: 0 10px 18px rgba(0, 102, 255, .20);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #0052cc, #0040a8);
+    border-color: #0052cc;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(0, 102, 255, .28);
+}
+
+.btn-outline-success {
+    border-color: #0066FF;
+    color: #0066FF;
+    background: transparent;
+}
+
+.btn-outline-success:hover {
+    background: #eff6ff;
+    border-color: #0066FF;
+    color: #0066FF;
+}
+
+.card,
+.modal-content,
+.dropdown-menu {
+    border: 1px solid rgba(226, 232, 240, .95);
+    border-radius: 14px;
+    background-color: #ffffff;
+}
+
+.form-control,
+.form-select {
+    border-color: #cbd5e1;
+    border-radius: 8px;
+    color: var(--tech-ink);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0066FF;
+    box-shadow: 0 0 0 .22rem rgba(0, 102, 255, .18);
+}
+
+.soft-toast {
+    border-radius: 10px;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, .14);
+}
+
+.fade-up {
+    animation: fadeUp .42s ease both;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid.px-4 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+}

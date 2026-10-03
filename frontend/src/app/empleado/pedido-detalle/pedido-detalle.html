@@ -1,0 +1,105 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando && pedido">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-bag-check"></i> PEDIDO WEB</span>
+      <h1 class="page-title mb-1">Detalle del pedido #{{ pedido.idPedido }}</h1>
+      <p class="text-muted mb-0">Consulta la información de la compra realizada por el cliente.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/empleado/pedidos">
+      <i class="bi bi-arrow-left"></i> Volver a pedidos
+    </a>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-person text-success"></i> Cliente</strong></div>
+        <div class="card-body">
+          <p class="mb-2"><strong>Nombre:</strong> {{ pedido.nombreCliente }}</p>
+          <p class="mb-2"><strong>Documento:</strong> {{ pedido.documentoCliente }}</p>
+          <p class="mb-0"><strong>Dirección de entrega:</strong> {{ pedido.direccionEntrega || '-' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-receipt text-success"></i> Información del pedido</strong></div>
+        <div class="card-body">
+          <p class="mb-2"><strong>Pedido:</strong> #{{ pedido.idPedido }}</p>
+          <p class="mb-2"><strong>Fecha:</strong> {{ pedido.fechaPedido }}</p>
+          <p class="mb-2"><strong>Estado:</strong> <span class="badge text-bg-success">{{ pedido.estado }}</span></p>
+          <p class="mb-0"><strong>Observación:</strong> {{ pedido.observacion || '-' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-white"><strong><i class="bi bi-box-seam text-success"></i> Productos del pedido</strong></div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr><th>Producto</th><th class="text-center">Cantidad</th><th class="text-end">P. Unit.</th><th class="text-end">Total</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of pedido.detalles">
+            <td><strong>{{ d.nombreProducto }}</strong></td>
+            <td class="text-center">{{ d.cantidad }}</td>
+            <td class="text-end">S/ {{ d.precioUnitario | number:'1.2-2' }}</td>
+            <td class="text-end"><strong>S/ {{ d.totalLinea | number:'1.2-2' }}</strong></td>
+          </tr>
+          <tr *ngIf="pedido.detalles.length === 0">
+            <td colspan="4" class="text-center text-muted py-4">No hay productos registrados en este pedido.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-credit-card text-success"></i> Información del pago</strong></div>
+        <div class="card-body" *ngIf="pedido.pago">
+          <p class="mb-2"><strong>Pasarela:</strong> {{ pedido.pago.pasarela }}</p>
+          <p class="mb-2"><strong>Operación:</strong> {{ pedido.pago.codigoOperacion }}</p>
+          <p class="mb-2"><strong>Moneda:</strong> {{ pedido.pago.moneda }}</p>
+          <p class="mb-2"><strong>Monto:</strong> S/ {{ pedido.pago.monto | number:'1.2-2' }}</p>
+          <p class="mb-0"><strong>Estado:</strong> <span class="badge text-bg-success">{{ pedido.pago.estado }}</span></p>
+        </div>
+        <div class="card-body text-muted" *ngIf="!pedido.pago">No existe información de pago para este pedido.</div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-file-earmark-text text-success"></i> Comprobante</strong></div>
+        <div class="card-body" *ngIf="pedido.comprobante">
+          <p class="mb-2"><strong>Tipo:</strong> {{ pedido.comprobante.tipo }}</p>
+          <p class="mb-2"><strong>Número:</strong> {{ pedido.comprobante.serie }}-{{ pedido.comprobante.correlativo }}</p>
+          <p class="mb-2"><strong>Fecha:</strong> {{ pedido.comprobante.fechaEmision }}</p>
+          <p class="mb-3"><strong>Estado:</strong> <span class="badge text-bg-success">{{ pedido.comprobante.estado }}</span></p>
+          <a class="btn btn-outline-success btn-icon" [href]="backendUrl + '/comprobantes/' + pedido.comprobante.idComprobante + '/pdf'" target="_blank">
+            <i class="bi bi-file-earmark-pdf"></i> Descargar comprobante PDF
+          </a>
+        </div>
+        <div class="card-body text-muted" *ngIf="!pedido.comprobante">Este pedido no tiene comprobante registrado.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2"><span>Subtotal</span><strong>S/ {{ pedido.subtotal | number:'1.2-2' }}</strong></div>
+          <div class="d-flex justify-content-between mb-2"><span>IGV 18%</span><strong>S/ {{ pedido.igv | number:'1.2-2' }}</strong></div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <strong class="fs-5">Total</strong>
+            <strong class="fs-5 text-success">S/ {{ pedido.total | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

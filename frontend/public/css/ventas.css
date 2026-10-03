@@ -1,0 +1,119 @@
+.metodo-card {
+    cursor: pointer;
+    transition: .25s;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.metodo-card:hover {
+    transform: translateY(-3px);
+    border-color: #bfdbfe;
+}
+
+.metodo-card.activo {
+    border: 2px solid #0066FF;
+    background: #eff6ff;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.payment-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+    transition: .25s;
+}
+
+.payment-option input {
+    display: none;
+}
+
+.payment-option:hover {
+    border-color: #0066FF;
+    transform: translateY(-3px);
+}
+
+/* EFECTIVO */
+.payment-option:has(input[value="EFECTIVO"]:checked) {
+    border-color: #0f172a;
+    background: #f8fafc;
+}
+
+.payment-option:has(input[value="EFECTIVO"]:checked) .payment-icon {
+    color: #0f172a;
+}
+
+/* TARJETA */
+.payment-option:has(input[value="TARJETA"]:checked) {
+    border-color: #0066FF;
+    background: #eff6ff;
+}
+
+.payment-option:has(input[value="TARJETA"]:checked) .payment-icon {
+    color: #0066FF;
+}
+
+/* YAPE / BILLETERA DIGITAL */
+.payment-option:has(input[value="YAPE"]:checked) {
+    border-color: #0066FF;
+    background: #eff6ff;
+}
+
+.payment-option:has(input[value="YAPE"]:checked) .payment-icon {
+    color: #0066FF;
+}
+
+.payment-icon {
+    font-size: 34px;
+    color: #64748b;
+    transition: color .25s ease;
+}
+
+/* TARJETA DEMO */
+.tarjeta-demo {
+    width: 320px;
+    height: 190px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0f172a, #0066FF);
+    color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 102, 255, .20);
+}
+
+.numero-tarjeta {
+    font-size: 24px;
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+
+/* OVERLAY DE CARGA */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.loading-card {
+    background: #ffffff;
+    border-radius: 18px;
+    width: 420px;
+    padding: 40px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, .20);
+}

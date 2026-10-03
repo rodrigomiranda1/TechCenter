@@ -1,0 +1,83 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-clipboard-data"></i> Inventario</span>
+      <h1 class="page-title mb-1">Movimientos y reposición</h1>
+      <p class="text-muted mb-0">Entradas, salidas, ajustes, devoluciones y alertas de stock.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/ventas"><i class="bi bi-receipt"></i> Ventas</a>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-4">
+      <div class="card shadow-sm operation-card">
+        <div class="card-header bg-white"><strong><i class="bi bi-clipboard-plus text-success"></i> Nuevo movimiento</strong></div>
+        <div class="card-body">
+          <form (ngSubmit)="registrar()">
+            <label class="form-label">Producto</label>
+            <select class="form-select mb-3" [(ngModel)]="idProducto" name="idProducto" required>
+              <option [ngValue]="undefined">Seleccionar producto</option>
+              <option *ngFor="let p of datos.productos" [ngValue]="p.idProducto">{{ p.nombre }}</option>
+            </select>
+
+            <label class="form-label">Tipo de movimiento</label>
+            <select class="form-select mb-3" [(ngModel)]="tipoMovimiento" name="tipoMovimiento" required>
+              <option>ENTRADA</option>
+              <option>SALIDA</option>
+              <option>AJUSTE</option>
+              <option>DEVOLUCION</option>
+            </select>
+
+            <label class="form-label">Cantidad</label>
+            <input type="number" min="0" class="form-control mb-3" placeholder="0" [(ngModel)]="cantidad" name="cantidad" required>
+
+            <label class="form-label">Observación</label>
+            <input class="form-control mb-3" placeholder="Motivo del movimiento" [(ngModel)]="observacion" name="observacion">
+
+            <button class="btn btn-success btn-icon w-100" type="submit"><i class="bi bi-check2-circle"></i> Registrar movimiento</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mt-3">
+        <div class="card-header bg-white"><strong><i class="bi bi-exclamation-triangle text-warning"></i> Stock bajo</strong></div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let p of datos.stockBajo">
+            <span>{{ p.nombre }}</span>
+            <span class="badge text-bg-warning">{{ p.stockActual }}</span>
+          </li>
+          <li class="list-group-item text-muted" *ngIf="datos.stockBajo.length === 0">Sin productos en alerta</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong><i class="bi bi-clock-history text-success"></i> Historial de movimientos</strong>
+          <div class="input-group input-group-sm" style="max-width: 340px">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input class="form-control" placeholder="Buscar movimiento..." [(ngModel)]="filtro" name="filtro">
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover align-middle">
+            <thead><tr><th>Fecha</th><th>Producto</th><th>Tipo</th><th>Cantidad</th><th>Observación</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let m of movimientosFiltrados">
+                <td>{{ m.fechaMovimiento }}</td>
+                <td>{{ m.nombreProducto }}</td>
+                <td><span class="badge text-bg-info status-dot">{{ m.tipoMovimiento }}</span></td>
+                <td><strong>{{ m.cantidad }}</strong></td>
+                <td>{{ m.observacion }}</td>
+              </tr>
+              <tr *ngIf="movimientosFiltrados.length === 0">
+                <td colspan="5" class="text-center text-muted">Aún no hay movimientos registrados</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

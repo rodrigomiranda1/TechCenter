@@ -1,0 +1,158 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando">
+  <div class="commerce-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-shield-check"></i> Compra segura</span>
+      <h1 class="page-title mb-1">Checkout TechCenter</h1>
+      <p class="text-muted mb-0">Revisa tu carrito, confirma entrega y prepara el comprobante.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/inicio">
+      <i class="bi bi-arrow-left"></i> Seguir comprando
+    </a>
+  </div>
+
+  <div class="checkout-steps mb-4">
+    <div class="checkout-step active"><span>1</span><strong>Carrito</strong></div>
+    <div class="checkout-step"><span>2</span><strong>Entrega</strong></div>
+    <div class="checkout-step"><span>3</span><strong>Pago</strong></div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-xl-8">
+      <div class="card shadow-sm checkout-card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong><i class="bi bi-bag text-success"></i> Productos seleccionados</strong>
+          <button *ngIf="resumen.items.length > 0" class="btn btn-sm btn-outline-danger btn-icon" (click)="vaciar()">
+            <i class="bi bi-trash3"></i> Vaciar
+          </button>
+        </div>
+        <div class="card-body">
+          <div *ngIf="resumen.items.length === 0" class="empty-state">
+            <i class="bi bi-bag-x"></i>
+            <h3>Tu carrito está vacío</h3>
+            <p>Agrega productos del catálogo para iniciar una compra.</p>
+            <button class="btn btn-success auth-submit btn-icon w-20" type="submit" routerLink="/inicio">Ir al catálogo</button>
+          </div>
+
+          <div class="cart-list" *ngIf="resumen.items.length > 0">
+            <div class="cart-item" *ngFor="let item of resumen.items">
+              <img class="cart-item-img" [src]="urlImagenCarrito(item)" [alt]="item.nombre">
+              <div class="cart-item-info">
+                <div class="d-flex flex-wrap justify-content-between gap-2">
+                  <div>
+                    <h5>{{ item.nombre }}</h5>
+                  </div>
+                  <span class="badge text-bg-success align-self-start">{{ item.codigo }}</span>
+                </div>
+                <div class="cart-meta">
+                  <span>S/ <strong>{{ item.precio | number:'1.2-2' }}</strong> c/u</span>
+                  <span>Subtotal: S/ <strong>{{ item.subtotal | number:'1.2-2' }}</strong></span>
+                </div>
+                <div class="qty-control mt-2">
+                  <button class="qty-btn" title="Restar cantidad" (click)="restar(item.idProducto)"><i class="bi bi-dash"></i></button>
+                  <span>{{ item.cantidad }}</span>
+                  <button class="qty-btn" title="Sumar cantidad" (click)="sumar(item.idProducto)"><i class="bi bi-plus"></i></button>
+                </div>
+              </div>
+              <button class="btn btn-outline-danger action-btn" title="Quitar" (click)="quitar(item.idProducto)">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NUEVO: bloque de método de pago, va DEBAJO de la tarjeta de productos, dentro de col-xl-8 -->
+      <div class="card shadow-sm checkout-card mt-3" *ngIf="resumen.items.length > 0">
+        <div class="card-body">
+          <h5><i class="bi bi-credit-card text-success"></i> Método de pago sandbox</h5>
+          <div class="payment-grid">
+            <label class="payment-option" [class.active]="metodoPago === 'TARJETA_DEMO'">
+              <input type="radio" name="metodoPago" value="TARJETA_DEMO" [(ngModel)]="metodoPago">
+              <span class="payment-icon"><i class="bi bi-credit-card-2-front"></i></span>
+              <span><strong>Tarjeta demo</strong><small>Mercado Pago sandbox</small></span>
+            </label>
+            <label class="payment-option" [class.active]="metodoPago === 'YAPE_DEMO'">
+              <input type="radio" name="metodoPago" value="YAPE_DEMO" [(ngModel)]="metodoPago">
+              <span class="payment-icon"><i class="bi bi-qr-code"></i></span>
+              <span><strong>Yape / QR</strong><small>Simulado para la presentación</small></span>
+            </label>
+            <label class="payment-option" [class.active]="metodoPago === 'EFECTIVO_DEMO'">
+              <input type="radio" name="metodoPago" value="EFECTIVO_DEMO" [(ngModel)]="metodoPago">
+              <span class="payment-icon"><i class="bi bi-cash-coin"></i></span>
+              <span><strong>Efectivo</strong><small>Pago contra entrega demo</small></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- FIN bloque nuevo -->
+       <div class="row g-3 mt-1" *ngIf="resumen.items.length > 0">
+  <div class="col-md-6">
+    <div class="card shadow-sm checkout-card h-100">
+      <div class="card-body">
+        <h5><i class="bi bi-truck text-success"></i> Entrega</h5>
+        <div class="option-tile" [class.active]="tipoEntrega === 'RECOJO'" (click)="seleccionarEntrega('RECOJO')" style="cursor:pointer">
+          <i class="bi bi-shop"></i>
+          <div><strong>Recojo en tienda</strong><span>Disponible hoy, sin costo.</span></div>
+        </div>
+        <div class="option-tile" [class.active]="tipoEntrega === 'DELIVERY'" (click)="seleccionarEntrega('DELIVERY')" style="cursor:pointer">
+          <i class="bi bi-geo-alt"></i>
+          <div><strong>Delivery local</strong><span>Se calculará en la V2 según distrito.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm checkout-card h-100">
+      <div class="card-body">
+        <h5><i class="bi bi-receipt text-success"></i> Comprobante</h5>
+        <div class="option-tile" [class.active]="tipoComprobante === 'BOLETA'" (click)="seleccionarComprobante('BOLETA')" style="cursor:pointer">
+          <i class="bi bi-file-earmark-text"></i>
+          <div><strong>Boleta</strong><span>Para cliente final.</span></div>
+         </div>
+         <div class="option-tile" [class.active]="tipoComprobante === 'FACTURA'" (click)="seleccionarComprobante('FACTURA')" style="cursor:pointer">
+          <i class="bi bi-building"></i>
+          <div><strong>Factura</strong><span>Solicitará RUC y razón social en V2.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+    <div class="col-xl-4">
+      <div class="card shadow-sm checkout-summary">
+        <div class="card-body">
+          <h4 class="mb-3">Resumen de compra</h4>
+          <div class="summary-line">
+            <span>Subtotal</span>
+            <strong>S/ {{ resumen.total | number:'1.2-2' }}</strong>
+          </div>
+
+          <!-- NUEVO: selector de comprobante -->
+          <div class="summary-line">
+            <span>Comprobante</span>
+            <select class="form-select form-select-sm" style="max-width: 150px" [(ngModel)]="tipoComprobante">
+              <option value="BOLETA">Boleta</option>
+              <option value="FACTURA">Factura</option>
+            </select>
+          </div>
+
+          <!-- NUEVO: dirección de entrega -->
+          <label class="form-label mt-2">Dirección de entrega</label>
+          <input class="form-control" placeholder="Recojo en tienda o dirección" [(ngModel)]="direccionEntrega">
+
+          <hr>
+          <div class="summary-total">
+            <span>Total estimado</span>
+            <strong>S/ {{ resumen.total | number:'1.2-2' }}</strong>
+          </div>
+
+          <!-- CAMBIADO: el botón ahora llama a irAPago() en vez de solo estar deshabilitado -->
+          <button class="btn btn-success btn-icon w-100 mt-3" [disabled]="resumen.items.length === 0" (click)="irAPago()">
+            <i class="bi bi-credit-card"></i> Ir a pago seguro
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,252 @@
+<main class="container-fluid px-4 mt-4 fade-up admin-page" *ngIf="!cargando">
+  <div class="commerce-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-people"></i> Administración</span>
+      <h1 class="page-title mb-1">Usuarios y contactos</h1>
+      <p class="text-muted mb-0">Gestiona clientes, proveedores y accesos del sistema.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/admin/panel">
+      <i class="bi bi-speedometer2"></i> Panel
+    </a>
+  </div>
+
+  <div class="row g-3">
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-person-plus text-success"></i> Nuevo cliente</strong></div>
+        <div class="card-body">
+          <form (ngSubmit)="guardarNuevoCliente()">
+            <input name="nombres" class="form-control mb-2" placeholder="Nombres" [(ngModel)]="nuevoCliente.nombres" required>
+            <input name="apellidos" class="form-control mb-2" placeholder="Apellidos" [(ngModel)]="nuevoCliente.apellidos">
+            <div class="row g-2">
+              <div class="col-md-6"><input name="dni" class="form-control mb-2" placeholder="DNI" [(ngModel)]="nuevoCliente.dni"></div>
+              <div class="col-md-6"><input name="telefono" class="form-control mb-2" placeholder="Teléfono" [(ngModel)]="nuevoCliente.telefono"></div>
+            </div>
+            <input name="direccion" class="form-control mb-2" placeholder="Dirección" [(ngModel)]="nuevoCliente.direccion">
+            <input name="emailFacturacion" type="email" class="form-control mb-2" placeholder="Email facturación" [(ngModel)]="nuevoCliente.emailFacturacion">
+            <button class="btn btn-success btn-icon w-100"><i class="bi bi-save"></i> Guardar cliente</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-building-add text-success"></i> Nuevo proveedor</strong></div>
+        <div class="card-body">
+          <form (ngSubmit)="guardarNuevoProveedor()">
+            <input name="ruc" class="form-control mb-2" placeholder="RUC" [(ngModel)]="nuevoProveedor.ruc">
+            <input name="razonSocial" class="form-control mb-2" placeholder="Razón social" [(ngModel)]="nuevoProveedor.razonSocial" required>
+            <input name="telefono" class="form-control mb-2" placeholder="Teléfono" [(ngModel)]="nuevoProveedor.telefono">
+            <input name="correo" type="email" class="form-control mb-2" placeholder="Correo" [(ngModel)]="nuevoProveedor.correo">
+            <input name="direccion" class="form-control mb-2" placeholder="Dirección" [(ngModel)]="nuevoProveedor.direccion">
+            <button class="btn btn-success btn-icon w-100"><i class="bi bi-save"></i> Guardar proveedor</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white"><strong><i class="bi bi-person-gear text-success"></i> Nuevo usuario</strong></div>
+        <div class="card-body">
+          <form (ngSubmit)="guardarNuevoUsuario()">
+            <input name="username" class="form-control mb-2" placeholder="Usuario" [(ngModel)]="nuevoUsuario.username" required>
+            <input name="email" type="email" class="form-control mb-2" placeholder="Correo" [(ngModel)]="nuevoUsuario.email" required>
+            <input name="password" class="form-control mb-2" placeholder="Password" [(ngModel)]="nuevoUsuario.password">
+            <select name="idRol" class="form-select mb-2" [(ngModel)]="nuevoUsuario.idRol">
+              <option [ngValue]="undefined">Rol</option>
+              <option *ngFor="let r of roles" [ngValue]="r.idRol">{{ r.nombre }}</option>
+            </select>
+            <button class="btn btn-success btn-icon w-100"><i class="bi bi-save"></i> Guardar usuario</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+
+    <div class="col-xl-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong>Clientes</strong>
+          <input class="form-control form-control-sm" style="max-width: 220px" placeholder="Buscar cliente" [(ngModel)]="buscarCliente">
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover align-middle">
+            <thead><tr><th>Nombre</th><th>Contacto</th><th>Documento</th><th class="text-end">Acciones</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let c of clientesFiltrados">
+                <td>
+                  <strong>{{ c.nombres }} {{ c.apellidos || '' }}</strong>
+                  <div class="text-muted small">{{ c.emailFacturacion || 'Sin correo' }}</div>
+                </td>
+                <td>
+                  <span>{{ c.telefono || '-' }}</span>
+                  <div class="text-muted small">{{ c.direccion || 'Sin dirección' }}</div>
+                </td>
+                <td>
+                  <span>{{ c.tipoDocumento || 'DNI' }}</span>
+                  {{ c.numeroDocumento || c.dni || '-' }}
+                </td>
+                <td class="text-end actions-cell">
+                  <button class="btn btn-sm btn-outline-success action-btn" title="Editar"
+                          data-bs-toggle="modal" [attr.data-bs-target]="'#editarCliente' + c.idCliente"
+                          (click)="abrirEdicionCliente(c)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger action-btn" title="Eliminar" (click)="eliminarCliente(c.idCliente!)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong>Proveedores</strong>
+          <input class="form-control form-control-sm" style="max-width: 220px" placeholder="Buscar proveedor" [(ngModel)]="buscarProveedor">
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover align-middle">
+            <thead><tr><th>Razón social</th><th>Contacto</th><th>Dirección</th><th class="text-end">Acciones</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let p of proveedoresFiltrados">
+                <td>
+                  <strong>{{ p.razonSocial }}</strong>
+                  <div class="text-muted small">RUC {{ p.ruc || '-' }}</div>
+                </td>
+                <td>
+                  <span>{{ p.telefono || '-' }}</span>
+                  <div class="text-muted small">{{ p.correo || 'Sin correo' }}</div>
+                </td>
+                <td>{{ p.direccion || '-' }}</td>
+                <td class="text-end actions-cell">
+                  <button class="btn btn-sm btn-outline-success action-btn" title="Editar"
+                          data-bs-toggle="modal" [attr.data-bs-target]="'#editarProveedor' + p.idProveedor"
+                          (click)="abrirEdicionProveedor(p)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger action-btn" title="Eliminar" (click)="eliminarProveedor(p.idProveedor!)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong>Usuarios del sistema</strong>
+          <input class="form-control form-control-sm" style="max-width: 220px" placeholder="Buscar usuario" [(ngModel)]="buscarUsuario">
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover align-middle">
+            <thead><tr><th>Usuario</th><th>Proveedor</th><th>Estado</th><th>Roles</th><th class="text-end">Acción</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let u of usuariosFiltrados">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <img *ngIf="u.fotoPerfil" class="admin-avatar" [src]="u.fotoPerfil" alt="Perfil">
+                    <span *ngIf="!u.fotoPerfil" class="admin-avatar admin-avatar-empty"><i class="bi bi-person"></i></span>
+                    <div>
+                      <strong>{{ u.username }}</strong>
+                      <div class="text-muted small">{{ u.email }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge text-bg-light">{{ u.proveedorAuth || 'LOCAL' }}</span></td>
+                <td>
+                  <span *ngIf="u.activo" class="badge text-bg-success">Activo</span>
+                  <span *ngIf="!u.activo" class="badge text-bg-secondary">Inactivo</span>
+                </td>
+                <td><span class="badge text-bg-warning me-1" *ngFor="let r of u.roles">{{ r }}</span></td>
+                <td class="text-end">
+                  <button *ngIf="u.activo" class="btn btn-sm btn-outline-danger action-btn" title="Desactivar" (click)="desactivarUsuario(u.idUsuario!)">
+                    <i class="bi bi-person-x"></i>
+                  </button>
+                  <button *ngIf="!u.activo" class="btn btn-sm btn-outline-success action-btn" title="Activar" (click)="activarUsuario(u.idUsuario!)">
+                    <i class="bi bi-person-check"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal fade" *ngFor="let c of clientes" [id]="'editarCliente' + c.idCliente" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" *ngIf="clienteEditando.idCliente === c.idCliente">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-pencil-square text-success"></i> Editar cliente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6"><label class="form-label">Nombres</label><input class="form-control" [(ngModel)]="clienteEditando.nombres" required></div>
+          <div class="col-md-6"><label class="form-label">Apellidos</label><input class="form-control" [(ngModel)]="clienteEditando.apellidos"></div>
+          <div class="col-md-4"><label class="form-label">DNI legado</label><input class="form-control" [(ngModel)]="clienteEditando.dni"></div>
+          <div class="col-md-4"><label class="form-label">Teléfono</label><input class="form-control" [(ngModel)]="clienteEditando.telefono"></div>
+          <div class="col-md-4">
+            <label class="form-label">Tipo documento</label>
+            <select class="form-select" [(ngModel)]="clienteEditando.tipoDocumento">
+              <option value="DNI">DNI</option>
+              <option value="RUC">RUC</option>
+              <option value="CE">CE</option>
+            </select>
+          </div>
+          <div class="col-md-6"><label class="form-label">Número documento</label><input class="form-control" [(ngModel)]="clienteEditando.numeroDocumento"></div>
+          <div class="col-md-6"><label class="form-label">Email facturación</label><input class="form-control" [(ngModel)]="clienteEditando.emailFacturacion"></div>
+          <div class="col-12"><label class="form-label">Dirección</label><input class="form-control" [(ngModel)]="clienteEditando.direccion"></div>
+          <div class="col-md-6"><label class="form-label">Razón social</label><input class="form-control" [(ngModel)]="clienteEditando.razonSocial"></div>
+          <div class="col-md-6"><label class="form-label">Dirección fiscal</label><input class="form-control" [(ngModel)]="clienteEditando.direccionFiscal"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success btn-icon" data-bs-dismiss="modal" (click)="guardarEdicionCliente()"><i class="bi bi-save"></i> Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" *ngFor="let p of proveedores" [id]="'editarProveedor' + p.idProveedor" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" *ngIf="proveedorEditando.idProveedor === p.idProveedor">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-pencil-square text-success"></i> Editar proveedor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-4"><label class="form-label">RUC</label><input class="form-control" [(ngModel)]="proveedorEditando.ruc"></div>
+          <div class="col-md-8"><label class="form-label">Razón social</label><input class="form-control" [(ngModel)]="proveedorEditando.razonSocial" required></div>
+          <div class="col-md-6"><label class="form-label">Teléfono</label><input class="form-control" [(ngModel)]="proveedorEditando.telefono"></div>
+          <div class="col-md-6"><label class="form-label">Correo</label><input class="form-control" [(ngModel)]="proveedorEditando.correo"></div>
+          <div class="col-12"><label class="form-label">Dirección</label><input class="form-control" [(ngModel)]="proveedorEditando.direccion"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success btn-icon" data-bs-dismiss="modal" (click)="guardarEdicionProveedor()"><i class="bi bi-save"></i> Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

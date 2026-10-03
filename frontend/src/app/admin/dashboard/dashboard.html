@@ -1,0 +1,80 @@
+
+<main class="container-fluid px-4 py-4 fade-up admin-page" *ngIf="!cargando">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-speedometer2"></i> Panel administrativo</span>
+      <h1 class="page-title mb-1">Gestión TechCenter</h1>
+      <p class="text-muted mb-0">Control de catálogo, ventas, compras, inventario y atención digital.</p>
+    </div>
+    <a class="btn btn-success btn-icon" routerLink="/inicio">
+      <i class="bi bi-shop"></i> Ver tienda
+    </a>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card shadow-sm metric-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="text-muted">Productos</h6>
+              <p class="display-6 mb-0">{{ datos.totalProductos }}</p>
+            </div>
+            <div class="metric-icon"><i class="bi bi-box-seam"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm metric-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="text-muted">Stock bajo</h6>
+              <p class="display-6 mb-0">{{ datos.stockBajo.length }}</p>
+            </div>
+            <div class="metric-icon"><i class="bi bi-exclamation-triangle"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3"><i class="bi bi-lightning-charge text-success"></i> Accesos rápidos</h5>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-success btn-icon quick-action" routerLink="/operaciones/catalogo"><i class="bi bi-box-seam"></i> Catálogo</a>
+            <a class="btn btn-outline-success btn-icon quick-action" routerLink="/asesor-ia"><i class="bi bi-stars"></i> IA</a>
+            <a class="btn btn-outline-success btn-icon quick-action" routerLink="/admin/auditoria"><i class="bi bi-shield-check"></i> Auditoría</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mt-3">
+    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <strong><i class="bi bi-bell text-warning"></i> Alertas de stock bajo</strong>
+      <div class="input-group input-group-sm" style="max-width: 320px">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input class="form-control" placeholder="Buscar producto..." [(ngModel)]="filtro">
+      </div>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead><tr><th>Producto</th><th>Stock actual</th><th>Stock mínimo</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let p of stockFiltrado">
+            <td>{{ p.nombre }}</td>
+            <td><span class="badge bg-secondary badge-stock">{{ p.stockActual }}</span></td>
+            <td>{{ p.stockMinimo }}</td>
+            <td><span class="badge text-bg-warning status-dot">Reponer</span></td>
+          </tr>
+          <tr *ngIf="stockFiltrado.length === 0">
+            <td colspan="4" class="text-center text-muted">Sin alertas por ahora</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,73 @@
+<main class="auth-page fade-up">
+  <div class="auth-card">
+    <div class="row g-0">
+      <div class="col-lg-4">
+        <section class="auth-side">
+          <div class="auth-side-content">
+            <div class="auth-brand-mark mb-4"><i class="bi bi-person-plus"></i></div>
+            <span class="auth-badge mb-4"><i class="bi bi-shield-check"></i> Registro seguro</span>
+            <div class="mt-auto">
+              <h1 class="fw-bold mb-3">Crea tu cuenta TechCenter.</h1>
+              <p class="auth-side-copy mb-0">Completa tus datos y disfruta de una cuenta preparada para tus compras y pedidos.</p>
+              <div class="auth-benefits">
+                <div class="auth-benefit"><i class="bi bi-heart"></i><span>Guarda favoritos y preferencias</span></div>
+                <div class="auth-benefit"><i class="bi bi-receipt"></i><span>Administra tus datos de facturación</span></div>
+                <div class="auth-benefit"><i class="bi bi-bag-check"></i><span>Compra y consulta tus pedidos</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-8 auth-main">
+        <div class="auth-main-body">
+          <div class="auth-heading">
+            <div class="auth-kicker">Nuevo cliente</div>
+            <h2>Crear una cuenta</h2>
+            <p>Regístrate en unos pasos y empieza a comprar.</p>
+          </div>
+
+          <form class="row g-3 auth-form" (ngSubmit)="onSubmit()">
+            <div class="col-md-6">
+              <label class="form-label" for="nombresRegistro">Nombres</label>
+              <input id="nombresRegistro" name="nombres" class="form-control" autocomplete="given-name" [(ngModel)]="nombres" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="apellidosRegistro">Apellidos</label>
+              <input id="apellidosRegistro" name="apellidos" class="form-control" autocomplete="family-name" [(ngModel)]="apellidos">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="usernameRegistro">Usuario</label>
+              <input id="usernameRegistro" name="username" class="form-control" autocomplete="username" [(ngModel)]="username" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="emailRegistro">Correo</label>
+              <input id="emailRegistro" name="email" type="email" class="form-control" autocomplete="email" [(ngModel)]="email" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="passwordRegistro">Contraseña</label>
+              <input id="passwordRegistro" name="password" type="password" minlength="6" class="form-control"
+              autocomplete="new-password" [(ngModel)]="password" required>
+              </div>
+
+              <p class="text-danger small" *ngIf="mensajeError">{{ mensajeError }}</p>
+
+              <div class="col-12 d-flex flex-wrap gap-2 pt-1">
+                <button class="btn btn-success auth-submit btn-icon" type="submit" [disabled]="cargando">
+                  <i class="bi bi-person-check"></i> {{ cargando ? 'Creando cuenta...' : 'Crear cuenta' }}
+                </button>
+                <a class="btn btn-outline-secondary auth-social btn-icon" routerLink="/login">
+                  <i class="bi bi-arrow-left"></i> Ya tengo cuenta
+                </a>
+              </div>
+            </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

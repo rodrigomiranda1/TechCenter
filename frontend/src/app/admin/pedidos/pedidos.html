@@ -1,0 +1,42 @@
+<main class="container-fluid px-4 py-4 fade-up admin-page" *ngIf="!cargando">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-bag-check"></i> Ecommerce V2</span>
+      <h1 class="page-title mb-1">Pedidos y comprobantes</h1>
+      <p class="text-muted mb-0">Compras web, pagos sandbox y boletas/facturas académicas.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/admin/panel"><i class="bi bi-speedometer2"></i> Panel</a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <strong><i class="bi bi-list-check text-success"></i> Pedidos registrados</strong>
+      <div class="input-group input-group-sm" style="max-width: 340px">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input class="form-control" placeholder="Buscar pedido..." [(ngModel)]="filtro">
+      </div>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead><tr><th>Pedido</th><th>Fecha</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Comprobante</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let p of pedidosFiltrados">
+            <td>#{{ p.idPedido }}</td>
+            <td>{{ p.fechaPedido }}</td>
+            <td>{{ p.nombreCliente }}</td>
+            <td><strong>S/ {{ p.total | number:'1.2-2' }}</strong></td>
+            <td><span class="badge text-bg-success status-dot">{{ p.estado }}</span></td>
+            <td>
+              <a class="btn btn-sm btn-outline-success btn-icon" [routerLink]="['/checkout/confirmacion', p.idPedido]">
+                <i class="bi bi-eye"></i> Ver
+              </a>
+            </td>
+          </tr>
+          <tr *ngIf="pedidosFiltrados.length === 0">
+            <td colspan="6" class="text-center text-muted">Aún no hay pedidos web</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

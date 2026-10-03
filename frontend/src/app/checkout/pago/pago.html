@@ -1,0 +1,183 @@
+<div class="payment-overlay" *ngIf="estadoOverlay !== 'oculto'">
+  <div class="success-hero" style="max-width: 420px;">
+    <div class="success-icon">
+      <i class="bi" [class.bi-arrow-repeat]="estadoOverlay === 'procesando'" [class.bi-check2-circle]="estadoOverlay === 'aprobado'"
+         [class.spin]="estadoOverlay === 'procesando'"></i>
+    </div>
+    <h1 *ngIf="estadoOverlay === 'procesando'" style="font-size: 1.8rem;">Procesando pago...</h1>
+    <h1 *ngIf="estadoOverlay === 'aprobado'" style="font-size: 1.8rem;">¡Pago aprobado!</h1>
+    <p *ngIf="estadoOverlay === 'procesando'">Validando con la pasarela sandbox, un momento...</p>
+    <p *ngIf="estadoOverlay === 'aprobado'">Generando tu comprobante...</p>
+  </div>
+</div>
+
+<main class="container-fluid px-4 py-4 fade-up payment-page">
+  <div class="commerce-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-lock"></i> Sandbox seguro</span>
+      <h1 class="page-title mb-1">Completa tu pago</h1>
+      <p class="text-muted mb-0">Valida el método elegido antes de generar pedido, pago y comprobante.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/carrito">
+      <i class="bi bi-arrow-left"></i> Volver al carrito
+    </a>
+  </div>
+
+  <div class="checkout-steps mb-4">
+    <div class="checkout-step done"><span><i class="bi bi-check-lg"></i></span><strong>Carrito</strong></div>
+    <div class="checkout-step done"><span><i class="bi bi-check-lg"></i></span><strong>Entrega</strong></div>
+    <div class="checkout-step active"><span>3</span><strong>Pago</strong></div>
+  </div>
+
+  <div class="row g-4 align-items-start">
+    <div class="col-xl-8">
+
+      <section class="card shadow-sm payment-card" *ngIf="metodoPago === 'TARJETA_DEMO'">
+        <div class="card-body p-4">
+          <div class="payment-heading">
+            <div>
+              <span class="eyebrow"><i class="bi bi-credit-card-2-front"></i> Mercado Pago sandbox</span>
+              <h2>Tarjeta demo</h2>
+              <p>Usa una tarjeta aprobada de prueba. No se realiza ningún cobro real.</p>
+            </div>
+            <span class="status-pill"><i class="bi bi-shield-check"></i> Aprobación demo</span>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-5">
+              <div class="credit-card-preview">
+                <div class="card-chip"></div>
+                <div class="card-preview-number">{{ numeroTarjeta || '4509 9535 6623 3704' }}</div>
+                <div class="d-flex justify-content-between">
+                  <span>{{ titular || 'CLIENTE TECHCENTER' }}</span>
+                  <span>{{ vence || '11/30' }}</span>
+                </div>
+              </div>
+              <div class="demo-fill-row">
+                <button class="btn btn-outline-success btn-sm" type="button" (click)="usarTarjetaDemo('4509953566233704')">
+                  <i class="bi bi-credit-card"></i> Usar Visa demo
+                </button>
+                <button class="btn btn-outline-success btn-sm" type="button" (click)="usarTarjetaDemo('5031755734530604')">
+                  <i class="bi bi-credit-card"></i> Usar Mastercard
+                </button>
+              </div>
+              <div class="payment-note mt-3">
+                <i class="bi bi-info-circle"></i>
+                <span>El backend solo acepta las tarjetas demo aprobadas para evitar pagos ficticios incompletos.</span>
+              </div>
+            </div>
+
+            <div class="col-lg-7">
+              <form (ngSubmit)="confirmar()">
+                <div class="mb-3">
+                  <label class="form-label">Número de tarjeta</label>
+                  <input class="form-control form-control-lg" [(ngModel)]="numeroTarjeta" name="numeroTarjeta"
+                         placeholder="4509 9535 6623 3704" required>
+                  <div class="form-text">Acepta Visa o Mastercard demo aprobadas.</div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-7">
+                    <label class="form-label">Titular</label>
+                    <input class="form-control" [(ngModel)]="titular" name="titular" placeholder="CLIENTE TECHCENTER" required>
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label">Vence</label>
+                    <input class="form-control" [(ngModel)]="vence" name="vence" placeholder="11/30" required>
+                  </div>
+                  <div class="col-6 col-md-2">
+                    <label class="form-label">CVV</label>
+                    <input class="form-control" [(ngModel)]="cvv" name="cvv" placeholder="123" required>
+                  </div>
+                </div>
+                <button class="btn btn-success btn-lg btn-icon w-100 mt-4" type="submit" [disabled]="procesando">
+                  <i class="bi bi-lock"></i> {{ procesando ? 'Procesando...' : 'Pagar' }}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card shadow-sm payment-card" *ngIf="metodoPago === 'YAPE_DEMO'">
+        <div class="card-body p-4">
+          <div class="payment-heading">
+            <div>
+              <span class="eyebrow"><i class="bi bi-qr-code"></i> Yape / QR demo</span>
+              <h2>Escanea y registra la operación</h2>
+              <p>En una integración real se usa un QR dinámico del proveedor. Aquí se simula el pago para la presentación.</p>
+            </div>
+            <span class="status-pill"><i class="bi bi-phone"></i> QR demo</span>
+          </div>
+
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <div class="qr-shell">
+                <img src="http://localhost:8080/img/payment/yape-qr-demo.svg" alt="QR Yape demo">
+              </div>
+              <div class="payment-note mt-3">
+                <i class="bi bi-lightbulb"></i>
+                <span>Para la V2 real, el QR debería expirar y vincularse al pedido pendiente.</span>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <form (ngSubmit)="confirmar()">
+                <div class="yape-box mb-3">
+                  <span>Cuenta destino</span>
+                  <strong>TechCenter Demo - 925 821 525</strong>
+                </div>
+                <label class="form-label">Código de operación</label>
+                <input class="form-control form-control-lg" [(ngModel)]="codigoOperacion" name="codigoOperacion"
+                       placeholder="Ej. YAPE-93482" required>
+                <div class="form-text">Ingresa un código de 5 a 20 caracteres para aprobar el flujo demo.</div>
+                <button class="btn btn-success btn-lg btn-icon w-100 mt-4" type="submit" [disabled]="procesando">
+                  <i class="bi bi-check2-circle"></i> {{ procesando ? 'Procesando...' : 'Ya pagué con Yape' }}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card shadow-sm payment-card" *ngIf="metodoPago === 'EFECTIVO_DEMO'">
+        <div class="card-body p-4">
+          <div class="payment-heading">
+            <div>
+              <span class="eyebrow"><i class="bi bi-cash-coin"></i> Contra entrega demo</span>
+              <h2>Confirma tu pedido</h2>
+              <p>El pago queda registrado como efectivo demo y el comprobante se genera al confirmar.</p>
+            </div>
+            <span class="status-pill"><i class="bi bi-truck"></i> Pago al recibir</span>
+          </div>
+          <div class="cash-flow">
+            <div><i class="bi bi-bag-check"></i><strong>Pedido preparado</strong><span>Reservamos stock del carrito.</span></div>
+            <div><i class="bi bi-shop"></i><strong>Entrega o recojo</strong><span>Validación manual del pago.</span></div>
+            <div><i class="bi bi-receipt"></i><strong>Comprobante</strong><span>Boleta o factura académica.</span></div>
+          </div>
+          <button class="btn btn-success btn-lg btn-icon w-100 mt-4" (click)="confirmar()" [disabled]="procesando">
+            <i class="bi bi-check2-circle"></i> {{ procesando ? 'Procesando...' : 'Confirmar contra entrega' }}
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="col-xl-4">
+      <aside class="card shadow-sm checkout-summary payment-summary">
+        <div class="card-body">
+          <h4 class="mb-3">Resumen seguro</h4>
+          <div class="summary-line"><span>Comprobante</span><strong>{{ tipoComprobante }}</strong></div>
+          <div class="summary-line">
+            <span>Método</span>
+            <strong>{{ metodoPago === 'TARJETA_DEMO' ? 'Tarjeta demo' : (metodoPago === 'YAPE_DEMO' ? 'Yape / QR' : 'Efectivo') }}</strong>
+          </div>
+          <div class="summary-line"><span>Entrega</span><strong>{{ direccionEntrega || 'Recojo en tienda' }}</strong></div>
+          <hr>
+          <div class="payment-trust">
+            <div><i class="bi bi-shield-lock"></i><span>Sandbox, sin cobro real</span></div>
+            <div><i class="bi bi-file-earmark-pdf"></i><span>Comprobante descargable</span></div>
+            <div><i class="bi bi-clipboard-check"></i><span>Pedido visible para admin</span></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>

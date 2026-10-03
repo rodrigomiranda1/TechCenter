@@ -1,0 +1,69 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-cart-plus"></i> Abastecimiento</span>
+      <h1 class="page-title mb-1">Compras a proveedores</h1>
+      <p class="text-muted mb-0">Cada compra aumenta stock y registra movimiento de inventario.</p>
+    </div>
+    <a class="btn btn-outline-success btn-icon" routerLink="/admin/panel"><i class="bi bi-speedometer2"></i> Panel</a>
+  </div>
+
+  <div class="card shadow-sm mb-3 operation-card">
+    <div class="card-header bg-white"><strong><i class="bi bi-plus-circle text-success"></i> Registrar compra</strong></div>
+    <div class="card-body">
+      <form class="row g-3" (ngSubmit)="registrar()">
+        <div class="col-md-3">
+          <label class="form-label">Proveedor</label>
+          <select class="form-select" [(ngModel)]="idProveedor" name="idProveedor" required>
+            <option [ngValue]="undefined">Seleccionar proveedor</option>
+            <option *ngFor="let p of datos.proveedores" [ngValue]="p.idProveedor">{{ p.razonSocial }}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Producto</label>
+          <select class="form-select" [(ngModel)]="idProducto" name="idProducto" required>
+            <option [ngValue]="undefined">Seleccionar producto</option>
+            <option *ngFor="let p of datos.productos" [ngValue]="p.idProducto">{{ p.nombre }}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Cantidad</label>
+          <input type="number" min="1" class="form-control" placeholder="10" [(ngModel)]="cantidad" name="cantidad" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Costo unitario</label>
+          <input type="number" step="0.01" min="0" class="form-control" placeholder="S/ 0.00" [(ngModel)]="costoUnitario" name="costo" required>
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
+          <button class="btn btn-success w-100" title="Registrar compra" type="submit"><i class="bi bi-check2-circle"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <strong><i class="bi bi-clock-history text-success"></i> Historial de compras</strong>
+      <div class="input-group input-group-sm" style="max-width: 340px">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input class="form-control" placeholder="Buscar compra..." [(ngModel)]="filtro" name="filtro">
+      </div>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead><tr><th>Fecha</th><th>Proveedor</th><th>Total</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let c of comprasFiltradas">
+            <td>{{ c.fechaCompra }}</td>
+            <td>{{ c.nombreProveedor }}</td>
+            <td><strong>S/ {{ c.total | number:'1.2-2' }}</strong></td>
+            <td><span class="badge text-bg-success status-dot">Stock actualizado</span></td>
+          </tr>
+          <tr *ngIf="comprasFiltradas.length === 0">
+            <td colspan="4" class="text-center text-muted">Aún no hay compras registradas</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

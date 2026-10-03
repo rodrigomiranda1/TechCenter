@@ -1,0 +1,50 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando">
+  <div class="admin-header mb-4">
+    <div>
+      <span class="eyebrow"><i class="bi bi-bag-check"></i> PEDIDOS WEB</span>
+      <h1 class="page-title mb-1">Pedidos de clientes</h1>
+      <p class="text-muted mb-0">Consulta y seguimiento de las compras realizadas desde la tienda web.</p>
+    </div>
+    <a routerLink="/empleado/panel" class="btn btn-outline-success btn-icon">
+      <i class="bi bi-arrow-left"></i> Panel empleado
+    </a>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <strong><i class="bi bi-list-check text-success"></i> Pedidos registrados</strong>
+      <div class="input-group input-group-sm" style="max-width:340px">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="text" class="form-control" placeholder="Buscar pedido..." [(ngModel)]="filtro">
+      </div>
+    </div>
+
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark">
+          <tr><th>Pedido</th><th>Fecha</th><th>Cliente</th><th>Total</th><th>Estado</th><th class="text-center">Acción</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of pedidosFiltrados">
+            <td><strong>#{{ p.idPedido }}</strong></td>
+            <td>{{ p.fechaPedido }}</td>
+            <td><strong>{{ p.nombreCliente }}</strong></td>
+            <td><strong class="text-success">S/ {{ p.total | number:'1.2-2' }}</strong></td>
+            <td><span class="badge bg-success">{{ p.estado }}</span></td>
+            <td class="text-center">
+              <a class="btn btn-sm btn-outline-success btn-icon" [routerLink]="['/empleado/pedidos', p.idPedido]">
+                <i class="bi bi-eye"></i> Ver detalle
+              </a>
+            </td>
+          </tr>
+          <tr *ngIf="pedidosFiltrados.length === 0">
+            <td colspan="6" class="text-center text-muted py-4">
+              <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+              No hay pedidos web registrados.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,98 @@
+<main class="container-fluid px-4 py-4 fade-up" *ngIf="!cargando">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-success text-white py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h3 class="mb-0"><i class="bi bi-clock-history"></i> Historial de Ventas</h3>
+          <small>Consulta todas las ventas registradas en FerreMax</small>
+        </div>
+        <a routerLink="/ventas" class="btn btn-light"><i class="bi bi-cart-plus"></i> Nueva Venta</a>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-4 g-3">
+        <div class="col-lg-5">
+          <label class="form-label fw-semibold">Buscar Venta</label>
+          <div class="input-group">
+            <span class="input-group-text bg-success text-white"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" placeholder="Buscar por cliente o comprobante..." [(ngModel)]="buscar">
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <label class="form-label fw-semibold">Comprobante</label>
+          <select class="form-select" [(ngModel)]="filtroComprobante">
+            <option value="">Todos</option>
+            <option value="B">Boletas</option>
+            <option value="F">Facturas</option>
+          </select>
+        </div>
+        <div class="col-lg-2">
+          <label class="form-label fw-semibold">Método de Pago</label>
+          <select class="form-select" [(ngModel)]="filtroPago">
+            <option value="">Todos</option>
+            <option value="EFECTIVO">Efectivo</option>
+            <option value="TARJETA">Tarjeta</option>
+            <option value="YAPE">Yape</option>
+          </select>
+        </div>
+        <div class="col-lg-3">
+          <label class="form-label fw-semibold">Actualizar</label>
+          <button type="button" class="btn btn-outline-success w-100" (click)="cargar(pagina.paginaActual)">
+            <i class="bi bi-arrow-clockwise"></i> Recargar listado
+          </button>
+        </div>
+      </div>
+
+      <hr class="mb-4">
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center">
+          <thead class="table-success">
+            <tr><th>#</th><th>Comprobante</th><th>Cliente</th><th>Fecha</th><th>Pago</th><th>Total</th><th>Estado</th><th>Acción</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="ventasFiltradas.length === 0">
+              <td colspan="8" class="py-5"><i class="bi bi-receipt fs-1 text-secondary"></i><br><br><strong>No existen ventas registradas.</strong></td>
+            </tr>
+            <tr *ngFor="let v of ventasFiltradas; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td><span class="badge bg-dark fs-6">{{ v.serie }}-{{ v.correlativo }}</span></td>
+              <td class="text-start"><strong>{{ v.nombreCliente }}</strong><br><small class="text-muted">{{ v.dniCliente }}</small></td>
+              <td>{{ v.fecha }}<br><small class="text-muted">{{ v.hora }}</small></td>
+              <td>
+                <span *ngIf="v.metodoPago === 'EFECTIVO'" class="badge bg-secondary"><i class="bi bi-cash"></i> Efectivo</span>
+                <span *ngIf="v.metodoPago === 'TARJETA'" class="badge bg-warning text-dark"><i class="bi bi-credit-card"></i> Tarjeta</span>
+                <span *ngIf="v.metodoPago === 'YAPE'" class="badge bg-success"><i class="bi bi-qr-code"></i> Yape</span>
+              </td>
+              <td><strong class="text-success">S/ {{ v.total | number:'1.2-2' }}</strong></td>
+              <td><span class="badge bg-warning text-dark">{{ v.estado }}</span></td>
+              <td>
+                <a [routerLink]="['/ventas/comprobante', v.idVenta]" class="btn btn-outline-success btn-sm" title="Ver Resumen">
+                  <i class="bi bi-file-earmark-text"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <small class="text-muted">Total de ventas: <strong>{{ pagina.totalElementos }}</strong></small>
+        <nav>
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="pagina.primera">
+              <a class="page-link" href="javascript:void(0)" (click)="cargar(pagina.paginaActual - 1)"><i class="bi bi-chevron-left"></i></a>
+            </li>
+            <li class="page-item" *ngFor="let p of paginasArray()" [class.active]="p === pagina.paginaActual">
+              <a class="page-link" href="javascript:void(0)" (click)="cargar(p)">{{ p + 1 }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="pagina.ultima">
+              <a class="page-link" href="javascript:void(0)" (click)="cargar(pagina.paginaActual + 1)"><i class="bi bi-chevron-right"></i></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</main>

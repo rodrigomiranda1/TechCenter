@@ -1,0 +1,228 @@
+/* Pasos completados en Checkout */
+.checkout-step.done {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+    color: #0066FF;
+}
+
+.checkout-step.done span {
+    background: #0066FF;
+    color: #ffffff;
+}
+
+/* Tarjetas base de Checkout y Pago */
+.checkout-card,
+.checkout-summary,
+.payment-card {
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    box-shadow: 0 18px 46px rgba(15, 23, 42, .06) !important;
+}
+
+.payment-page .commerce-header {
+    background: linear-gradient(135deg, #ffffff, #eff6ff);
+}
+
+.payment-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.payment-heading h2 {
+    font-size: clamp(1.55rem, 2vw, 2.15rem);
+    font-weight: 900;
+    color: #0f172a;
+    margin: .35rem 0 .25rem;
+}
+
+.payment-heading p {
+    color: #64748b;
+    margin: 0;
+    max-width: 42rem;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    white-space: nowrap;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #0066FF;
+    padding: .5rem .75rem;
+    font-size: .86rem;
+    font-weight: 800;
+}
+
+/* Previsualización de Tarjeta de Crédito */
+.credit-card-preview {
+    min-height: 210px;
+    border-radius: 18px;
+    padding: 1.25rem;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, .16), transparent 40%),
+        linear-gradient(135deg, #0f172a, #0066FF);
+    box-shadow: 0 20px 42px rgba(0, 102, 255, .20);
+}
+
+.card-chip {
+    width: 44px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #fde68a, #f59e0b);
+}
+
+.card-preview-number {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.credit-card-preview span {
+    font-size: .75rem;
+    font-weight: 800;
+    opacity: .92;
+}
+
+.demo-fill-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .65rem;
+    margin-top: 1rem;
+}
+
+.payment-note {
+    display: flex;
+    align-items: flex-start;
+    gap: .65rem;
+    padding: .9rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #475569;
+    border: 1px dashed #cbd5e1;
+}
+
+/* Módulo de Pago QR y Billeteras Digitales */
+.qr-shell {
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, rgba(0, 102, 255, .06), transparent),
+        #ffffff;
+    border: 1px solid #bfdbfe;
+    padding: 1.25rem;
+    box-shadow: inset 0 0 0 8px #eff6ff;
+}
+
+.qr-shell img {
+    width: min(100%, 280px);
+    height: auto;
+}
+
+.yape-box {
+    display: grid;
+    gap: .25rem;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.yape-box span,
+.yape-box small {
+    color: #1e40af;
+}
+
+.yape-box strong {
+    font-size: 1.1rem;
+    color: #0f172a;
+}
+
+/* Flujo de Pago en Efectivo */
+.cash-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.cash-flow > div {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1rem;
+    background: #ffffff;
+    transition: border-color .18s ease;
+}
+
+.cash-flow > div:hover {
+    border-color: #bfdbfe;
+}
+
+.cash-flow i {
+    width: 42px;
+    height: 42px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #eff6ff;
+    color: #0066FF;
+    margin-bottom: .85rem;
+}
+
+.cash-flow strong {
+    display: block;
+    color: #0f172a;
+}
+
+.cash-flow span {
+    display: block;
+    color: #64748b;
+    font-size: .9rem;
+    margin-top: .25rem;
+}
+
+/* Resumen lateral de Pago */
+.payment-summary {
+    background: linear-gradient(180deg, #ffffff, #eff6ff);
+}
+
+.payment-trust {
+    display: grid;
+    gap: .75rem;
+}
+
+.payment-trust div {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    color: #475569;
+}
+
+.payment-trust i {
+    color: #0066FF;
+}
+
+.payment-final-form .btn-lg {
+    min-height: 52px;
+}
+
+@media (max-width: 768px) {
+    .payment-heading,
+    .cash-flow {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .status-pill {
+        justify-self: start;
+    }
+}

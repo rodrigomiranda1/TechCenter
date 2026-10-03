@@ -1,0 +1,74 @@
+<main class="auth-page fade-up">
+  <div class="auth-card">
+    <div class="row g-0">
+      <div class="col-lg-5">
+        <section class="auth-side">
+          <div class="auth-side-content">
+            <div class="auth-brand-mark mb-4"><i class="bi bi-pc-display"></i></div>
+            <span class="auth-badge mb-4"><i class="bi bi-shield-check"></i> Acceso seguro</span>
+            <div class="mt-auto">
+              <h1 class="fw-bold mb-3">Todo para tu proyecto, en un solo lugar.</h1>
+              <p class="auth-side-copy mb-0">Ingresa a TechCenter y disfruta una experiencia de compra sencilla, ordenada y pensada para tus necesidades.</p>
+              <div class="auth-benefits">
+                <div class="auth-benefit"><i class="bi bi-bag-check"></i><span>Compra y consulta tus pedidos</span></div>
+                <div class="auth-benefit"><i class="bi bi-heart"></i><span>Guarda tus productos favoritos</span></div>
+                <div class="auth-benefit"><i class="bi bi-stars"></i><span>Recibe recomendaciones personalizadas</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-7 auth-main">
+        <div class="auth-main-body">
+          <div class="auth-heading">
+            <div class="auth-kicker">Tu cuenta TechCenter</div>
+            <h2>Bienvenido de nuevo</h2>
+            <p>Ingresa con tu usuario o correo para continuar.</p>
+          </div>
+
+          <form class="auth-form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label" for="loginUsuario">Usuario o correo</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input id="loginUsuario" name="usuario" class="form-control"
+                       placeholder="" autocomplete="username"
+                       [(ngModel)]="usuario" required>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="loginPassword">Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input id="loginPassword" name="password" type="password" class="form-control"
+                       placeholder="" autocomplete="current-password"
+                       [(ngModel)]="password" required>
+              </div>
+            </div>
+
+            <p class="text-danger small" *ngIf="mensajeError">{{ mensajeError }}</p>
+
+            <button class="btn btn-success auth-submit btn-icon w-100" type="submit" [disabled]="cargando">
+              <i class="bi bi-box-arrow-in-right"></i> {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+            </button>
+          </form>
+
+          <div class="text-center mt-4">
+            <span class="text-muted small">¿Todavía no tienes una cuenta?</span>
+            <a class="auth-link ms-1 small" routerLink="/register">Crear cuenta</a>
+          </div>
+
+          <br>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-success auth-submit btn-icon w-20" type="submit" routerLink="/inicio">
+                  Ver productos sin iniciar sesión
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
