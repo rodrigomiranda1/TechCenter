@@ -6,7 +6,7 @@ import { Adminservice, Reportes } from '../../admin/adminservice';
 
 @Component({
   selector: 'app-reportes',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './reportes.html',
   styleUrl: './reportes.css',
 })

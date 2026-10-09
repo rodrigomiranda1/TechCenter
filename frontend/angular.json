@@ -39,7 +39,8 @@
               "public/css/pago.css",
               "public/css/admin.css",
               "public/css/ventas.css",
-              "public/css/panel.css"
+              "public/css/panel.css",
+              "public/css/theme-dark.css"
             ],
             "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.js"]
           },
@@ -75,6 +76,7 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {"proxyConfig": "proxy.conf.json"},
           "configurations": {
             "production": {
               "buildTarget": "angular-ferremax:build:production"

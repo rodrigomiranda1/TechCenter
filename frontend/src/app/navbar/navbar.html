@@ -57,6 +57,10 @@
 
           </ng-container>
         </ul>
+        
+        <button class="btn btn-outline-secondary btn-sm btn-icon me-2" (click)="toggleTheme()" title="Cambiar tema">
+  <i class="bi" [ngClass]="(theme$ | async) === 'dark' ? 'bi-sun' : 'bi-moon-stars'"></i>
+</button>
 
         <a class="btn btn-outline-success btn-sm btn-icon me-2" routerLink="/asesor-ia">
           <i class="bi bi-stars"></i> AsesorIA

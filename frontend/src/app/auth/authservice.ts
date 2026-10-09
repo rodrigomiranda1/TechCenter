@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { LoginRequest } from './model/LoginRequest';
 import { Usuario } from './model/Usuario';
+import { environment } from '../../environments/environment';
 
-// Se cambia 'http://localhost:8080/api/auth' por la ruta relativa manejada por Nginx
-const API_URL = '/api/auth';
+
+const API_URL = `${environment.apiUrl}/auth`;
 
 interface AuthResponse {
   mensaje: string;
