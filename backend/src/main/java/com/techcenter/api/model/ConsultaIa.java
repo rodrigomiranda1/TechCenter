@@ -22,6 +22,8 @@ public class ConsultaIa {
     private Cliente cliente;
 
     private String pregunta;
+
+    @Column(columnDefinition = "TEXT")
     private String respuesta;
 
     @Column(name = "fecha_consulta")
