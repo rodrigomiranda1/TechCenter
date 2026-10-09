@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "angular-ferremax": {
+    "angular-techcenter": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -79,10 +79,10 @@
           "options": {"proxyConfig": "proxy.conf.json"},
           "configurations": {
             "production": {
-              "buildTarget": "angular-ferremax:build:production"
+              "buildTarget": "angular-techcenter:build:production"
             },
             "development": {
-              "buildTarget": "angular-ferremax:build:development"
+              "buildTarget": "angular-techcenter:build:development"
             }
           },
           "defaultConfiguration": "development"
